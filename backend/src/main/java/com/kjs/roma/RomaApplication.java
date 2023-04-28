@@ -9,5 +9,4 @@ public class RomaApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(RomaApplication.class, args);
 	}
-
 }
