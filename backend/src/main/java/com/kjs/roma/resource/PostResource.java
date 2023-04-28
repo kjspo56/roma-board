@@ -47,7 +47,7 @@ public class PostResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/")
+    @Path("/list")
     public ResponseEntity<List<PostDTO>> list(){
         List<PostDTO> postDTOList = postService.list();
         return new ResponseEntity<>(postDTOList, HttpStatus.OK);
