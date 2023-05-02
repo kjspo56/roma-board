@@ -1,6 +1,0 @@
-spring:
-  datasource:
-    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-    url: jdbc:log4jdbc:postgresql://dev-roma-db.ccm3cb0tc5u3.us-west-2.rds.amazonaws.com:5432/postgres
-    username: postgres
-    password: postgres12!!
