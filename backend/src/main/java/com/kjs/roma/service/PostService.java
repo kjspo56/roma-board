@@ -4,6 +4,7 @@ import com.kjs.roma.dto.PostDTO;
 import com.kjs.roma.model.post.Post;
 import com.kjs.roma.repository.PostRepository;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,6 +30,14 @@ public class PostService {
         return new PostDTO(post.getSeq(), post.getTitle(), post.getContent(), post.getWriter(), post.getView());
     }
 
+    @Transactional
+    public void updateVisit(long seq, PostDTO postDTO){
+        Post post = postRepository.findById(seq).orElseThrow((() ->
+                new IllegalStateException("This post does not exist.")));
+        post.updateVisit(postDTO.view());
+    }
+
+    @Transactional
     public PostDTO create(PostDTO postDTO) {
         Post post = Post.builder()
                 .title(postDTO.title())
@@ -40,6 +49,7 @@ public class PostService {
         return new PostDTO(post.getSeq(), post.getTitle(), post.getContent(), post.getWriter(), post.getView());
     }
 
+    @Transactional
     public PostDTO update(PostDTO postDTO) {
         Post existingPost = postRepository.findById(postDTO.seq())
                 .orElseThrow(EntityNotFoundException::new);
@@ -48,6 +58,7 @@ public class PostService {
         return new PostDTO(updatedPost.getSeq(), updatedPost.getTitle(), updatedPost.getContent(), updatedPost.getWriter(), updatedPost.getView());
     }
 
+    @Transactional
     public void delete(Long seq) {
         postRepository.deleteById(seq);
     }

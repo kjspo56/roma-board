@@ -14,9 +14,13 @@ public class Post extends CommonField {
     @Column(name = "seq", nullable = false, unique = true)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long seq;
+    @Column(length = 500, nullable = false)
     private String title;
+    @Column(columnDefinition = "TEXT", nullable = false)
     private String content;
+    @Column(nullable = false)
     private String writer;
+    @Column(columnDefinition = "integer default 0", nullable = false)
     private int view;
 
     @Builder
@@ -32,6 +36,10 @@ public class Post extends CommonField {
         this.title = title;
         this.content = content;
         this.writer = writer;
+        this.view = view;
+    }
+
+    public void updateVisit(int view){
         this.view = view;
     }
 }

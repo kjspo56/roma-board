@@ -1,6 +1,8 @@
 package com.kjs.roma.resource;
 
 import com.kjs.roma.dto.PostDTO;
+import com.kjs.roma.model.post.Post;
+import com.kjs.roma.repository.PostRepository;
 import com.kjs.roma.service.PostService;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
@@ -8,11 +10,9 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
@@ -34,6 +34,7 @@ public class PostResource {
     }*/
 
     private final PostService postService;
+    private final PostRepository postRepository;
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -69,6 +70,22 @@ public class PostResource {
     public ResponseEntity<PostDTO> update(PostDTO postDTO) {
         PostDTO updatePostDTO = postService.update(postDTO);
         return new ResponseEntity<>(updatePostDTO, HttpStatus.OK);
+    }
+
+    @GET
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/read/{seq}")
+    public ResponseEntity count(@PathParam("seq") Long seq){
+        Post post = postRepository.findById(seq).get();
+        int view = post.getView() + 1;
+
+        PostDTO postDTO = PostDTO.builder()
+                .view(view)
+                .build();
+
+        postService.updateVisit(post.getSeq(), postDTO);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DELETE

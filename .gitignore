@@ -39,3 +39,5 @@ out/
 ### Git-Hub ###
 *.yml
 application-aws.yml
+
+# node 구성시 node_modules가 git에 업로드 되지 않게 .gitignore 파일에 node_modules 디렉터리 추가 필요
