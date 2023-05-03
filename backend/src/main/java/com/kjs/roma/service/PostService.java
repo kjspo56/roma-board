@@ -1,9 +1,9 @@
 package com.kjs.roma.service;
 
-import com.kjs.roma.dto.PostDTO;
+import com.kjs.roma.dto.post.PostDTO;
 import com.kjs.roma.environment.response.ApiResponse;
 import com.kjs.roma.model.post.Post;
-import com.kjs.roma.repository.PostRepository;
+import com.kjs.roma.repository.post.PostRepository;
 import com.kjs.roma.response.ResponseCode;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
@@ -74,4 +74,5 @@ public class PostService {
             throw new ServiceException(ResponseCode.NO_DATA_FOUND.code());
         }
     }
+
 }

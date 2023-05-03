@@ -1,6 +1,6 @@
 package com.kjs.roma.resource;
 
-import com.kjs.roma.dto.PostDTO;
+import com.kjs.roma.dto.post.PostDTO;
 import com.kjs.roma.service.PostService;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
@@ -62,8 +62,8 @@ public class PostResource {
     @GET
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/count/{seq}")
-    public Response count(@PathParam("seq") Long seq) {
+    @Path("/view/{seq}")
+    public Response view(@PathParam("seq") Long seq) {
         return Response.status(Response.Status.OK)
                 .entity(postService.updateVisit(seq))
                 .build();
