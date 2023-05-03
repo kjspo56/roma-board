@@ -32,11 +32,10 @@ public class Post extends CommonField {
         this.view = view;
     }
 
-    public void modifyPost(String title, String content, String writer, int view){
+    public void modifyPost(String title, String content, String writer){
         this.title = title;
         this.content = content;
         this.writer = writer;
-        this.view = view;
     }
 
     public void updateVisit(int view){

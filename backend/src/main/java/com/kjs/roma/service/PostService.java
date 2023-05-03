@@ -1,13 +1,17 @@
 package com.kjs.roma.service;
 
 import com.kjs.roma.dto.PostDTO;
+import com.kjs.roma.environment.response.ApiResponse;
 import com.kjs.roma.model.post.Post;
 import com.kjs.roma.repository.PostRepository;
+import com.kjs.roma.response.ResponseCode;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
+import org.hibernate.service.spi.ServiceException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PostService {
@@ -17,28 +21,31 @@ public class PostService {
         this.postRepository = postRepository;
     }
 
-    public List<PostDTO> list() {
+    public ApiResponse list() throws ServiceException {
         List<Post> postList = postRepository.findAll();
-        return postList.stream()
-                .map(post -> new PostDTO(post.getSeq(), post.getTitle(), post.getContent(), post.getWriter(), post.getView()))
-                .toList();
+        return ApiResponse.createSuccess(postList);
     }
 
-    public PostDTO get(Long seq) {
-        Post post = postRepository.findById(seq)
-                .orElseThrow(EntityNotFoundException::new);
-        return new PostDTO(post.getSeq(), post.getTitle(), post.getContent(), post.getWriter(), post.getView());
+    public ApiResponse get(long seq) throws ServiceException {
+        Post post = postRepository.findById(seq).orElseThrow(EntityNotFoundException::new);
+        return ApiResponse.createSuccess(post);
     }
 
     @Transactional
-    public void updateVisit(long seq, PostDTO postDTO){
+    public ApiResponse updateVisit(long seq) throws ServiceException {
         Post post = postRepository.findById(seq).orElseThrow((() ->
                 new IllegalStateException("This post does not exist.")));
+
+        int view = post.getView() + 1;
+        PostDTO postDTO = PostDTO.builder()
+                .view(view)
+                .build();
         post.updateVisit(postDTO.view());
+        return ApiResponse.createSuccess(ResponseCode.SUCCESS.code());
     }
 
     @Transactional
-    public PostDTO create(PostDTO postDTO) {
+    public ApiResponse create(PostDTO postDTO) {
         Post post = Post.builder()
                 .title(postDTO.title())
                 .content(postDTO.content())
@@ -46,21 +53,25 @@ public class PostService {
                 .view(postDTO.view())
                 .build();
         postRepository.save(post);
-        return new PostDTO(post.getSeq(), post.getTitle(), post.getContent(), post.getWriter(), post.getView());
+        return ApiResponse.createSuccess(postDTO);
     }
 
     @Transactional
-    public PostDTO update(PostDTO postDTO) {
-        Post existingPost = postRepository.findById(postDTO.seq())
-                .orElseThrow(EntityNotFoundException::new);
-        existingPost.modifyPost(postDTO.title(), postDTO.content(), postDTO.writer(), postDTO.view());
-        Post updatedPost = postRepository.save(existingPost);
-        return new PostDTO(updatedPost.getSeq(), updatedPost.getTitle(), updatedPost.getContent(), updatedPost.getWriter(), updatedPost.getView());
+    public ApiResponse update(PostDTO postDTO) {
+        Post existingPost = postRepository.findById(postDTO.seq()).orElseThrow(EntityNotFoundException::new);
+        existingPost.modifyPost(postDTO.title(), postDTO.content(), postDTO.writer());
+        Post updatePost = postRepository.save(existingPost);
+        return ApiResponse.createSuccess(updatePost);
     }
 
     @Transactional
-    public void delete(Long seq) {
-        postRepository.deleteById(seq);
+    public ApiResponse delete(Long seq) {
+        Optional<Post> optionalPost = postRepository.findById(seq);
+        if (optionalPost.isPresent()) {
+            postRepository.deleteById(seq);
+            return ApiResponse.createSuccess(ResponseCode.SUCCESS.code());
+        } else {
+            throw new ServiceException(ResponseCode.NO_DATA_FOUND.code());
+        }
     }
-
 }
