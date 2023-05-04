@@ -4,6 +4,7 @@ server:
 spring:
   profiles:
     active: aws
+    include: oauth
   sql:
     init:
       mode: always
