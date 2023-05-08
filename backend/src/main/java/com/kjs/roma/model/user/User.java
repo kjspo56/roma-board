@@ -20,10 +20,10 @@ public class User extends CommonField{
     @Column(nullable = false, length = 30, unique = true)
     private String username;
 
-    @Column(nullable = false, length = 100)
+    @Column(length = 100)
     private String password;
 
-    @Column(nullable = false)
+    @Column
     private String nickname;
 
     @Column(nullable = false, length = 50)
