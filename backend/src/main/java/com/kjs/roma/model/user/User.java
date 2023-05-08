@@ -33,5 +33,23 @@ public class User extends CommonField{
     @Column(nullable = false)
     private Role role;
 
+    @Builder
+    public User(Long seq, String username, String nickname, String email, Role role){
+        this.seq = seq;
+        this.username = username;
+        this.nickname = nickname;
+        this.email = email;
+        this.role = role;
+    }
+
+    public User update(String username){
+        this.username = username;
+        return this;
+    }
+
+    public String getRoleKey(){
+        return this.role.getKey();
+    }
+
 
 }
