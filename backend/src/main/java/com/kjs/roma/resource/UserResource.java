@@ -1,7 +1,6 @@
 package com.kjs.roma.resource;
 
 import com.kjs.roma.dto.user.UserDTO;
-import com.kjs.roma.service.UserService;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
@@ -19,7 +18,6 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class UserResource {
 
-    private final UserService userService;
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -27,7 +25,7 @@ public class UserResource {
     @Path("/login")
     public Response login(UserDTO userDTO) throws ServiceException {
         return Response.status(Response.Status.OK)
-                .entity(userService.login(userDTO))
+//                .entity(userService.login(userDTO))
                 .build();
     }
 }

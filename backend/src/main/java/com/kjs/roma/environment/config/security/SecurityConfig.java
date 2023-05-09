@@ -1,5 +1,6 @@
-package com.kjs.roma.environment.config.security.oauth;
+package com.kjs.roma.environment.config.security;
 
+import com.kjs.roma.environment.config.security.oauth.CustomOAuth2UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -27,28 +28,17 @@ public class SecurityConfig { //WebSecurityConfigurerAdapter was deprecated
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-        /*        .authorizeHttpRequests((authz) -> authz
-                        .anyRequest().authenticated()
-                )
-                .httpBasic(withDefaults());*/
-
-                .csrf().disable()
+                .csrf().disable()   // * csrf : 사이트간 위조 요청
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-
                 .and()
                 .formLogin().disable()
                 .httpBasic().disable()
-
-                //.authorizeRequests()
-                //.antMatchers ("/api/**", "/login/**", "/oauth2/**").permitAll ()
-
                 .authorizeHttpRequests((authz) -> authz
                         .requestMatchers(
                                 new AntPathRequestMatcher("/admin/**/**"),
                                 new AntPathRequestMatcher("/api/user/**")).permitAll()
                                 .anyRequest().authenticated()
                 )
-                //.and()
                 .oauth2Login()
                 .authorizationEndpoint().baseUri("/oauth2/authorize")
                 .and()

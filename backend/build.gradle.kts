@@ -1,4 +1,5 @@
 import com.github.gradle.node.npm.task.NpmTask
+import java.util.regex.Pattern.compile
 
 plugins {
 	java
@@ -47,11 +48,20 @@ repositories {
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-jersey")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-	implementation("org.springframework.boot:spring-boot-starter-security")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16")
-	implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
+
+	//security
+	implementation("org.springframework.boot:spring-boot-starter-security")
 	implementation("org.springframework.security:spring-security-oauth2-client:6.0.2")
+	implementation("io.jsonwebtoken:jjwt-api:0.11.5")
+	runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.5")
+	runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.11.5")
+
+	//thymeleaf
+	implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
+
+	implementation("org.springframework.boot:spring-boot-starter-validation")
 
 	runtimeOnly("org.postgresql:postgresql:42.5.3")
 

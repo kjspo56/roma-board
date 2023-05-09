@@ -18,6 +18,7 @@ public class OAuthAttributes {
 
     public static OAuthAttributes of(String registrationId, String userNameAttributeName, Map<String, Object> attributes) {
 
+        // ToDO : 차후 네이버 및 카카오 반영
         if("naver".equals(registrationId)) {
             System.out.println(registrationId);
         } else if("kakao".equals(registrationId)){
@@ -36,6 +37,29 @@ public class OAuthAttributes {
                 .nameAttributeKey(userNameAttributeName)
                 .build();
     }
+
+    //ToDo : 차후 네이버 및 카카오 반영
+    /*private static OAuthAttributes ofNaver(String userNameAttributeName, Map<String, Object> attributes) {
+        Map<String, Object> response = (Map<String, Object>) attributes.get("response");
+        return OAuthAttributes.builder()
+                .username((String) response.get("name"))
+                .email((String) response.get("email"))
+                .attributes(response)
+                .nameAttributeKey(userNameAttributeName)
+                .build();
+    }
+
+    private static OAuthAttributes ofKakao(String userNameAttributeName, Map<String ,Object> attributes) {
+        Map<String, Object> response = (Map<String, Object>) attributes.get("kakao_account");
+        Map<String, Object> account = (Map<String, Object>) attributes.get("profile");
+
+        return OAuthAttributes.builder()
+                .username((String) account.get("nickname"))
+                .email((String) response.get("email"))
+                .attributes(response)
+                .nameAttributeKey(userNameAttributeName)
+                .build();
+    }*/
 
     public User toEntity() {
         return User.builder()
