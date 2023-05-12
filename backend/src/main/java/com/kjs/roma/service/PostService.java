@@ -7,6 +7,8 @@ import com.kjs.roma.repository.post.PostRepository;
 import com.kjs.roma.response.ResponseCode;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.hibernate.service.spi.ServiceException;
 import org.springframework.stereotype.Service;
 
@@ -14,12 +16,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Slf4j
+@RequiredArgsConstructor
 public class PostService {
-    private final PostRepository postRepository;
 
-    public PostService(PostRepository postRepository) {
-        this.postRepository = postRepository;
-    }
+    private final PostRepository postRepository;
 
     public ApiResponse list() throws ServiceException {
         List<Post> postList = postRepository.findAll();
