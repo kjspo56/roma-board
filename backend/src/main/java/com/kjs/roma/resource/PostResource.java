@@ -1,5 +1,6 @@
 package com.kjs.roma.resource;
 
+import com.kjs.roma.dto.page.PageDTO;
 import com.kjs.roma.dto.post.PostDTO;
 import com.kjs.roma.service.PostService;
 import jakarta.validation.Valid;
@@ -33,9 +34,9 @@ public class PostResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/list")
-    public Response list() throws ServiceException{
+    public Response list(PageDTO pageDTO) throws ServiceException{
         return Response.status(Response.Status.OK)
-                .entity(postService.list())
+                .entity(postService.list(pageDTO))
                 .build();
     }
 
@@ -46,6 +47,7 @@ public class PostResource {
     public Response get(@PathParam("seq") Long seq) {
         return Response.status(Response.Status.OK)
                 .entity(postService.get(seq))
+                .entity(postService.updateVisit(seq))
                 .build();
     }
 

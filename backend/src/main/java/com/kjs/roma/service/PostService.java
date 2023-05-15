@@ -1,5 +1,6 @@
 package com.kjs.roma.service;
 
+import com.kjs.roma.dto.page.PageDTO;
 import com.kjs.roma.dto.post.PostDTO;
 import com.kjs.roma.environment.response.ApiResponse;
 import com.kjs.roma.model.post.Post;
@@ -22,8 +23,8 @@ public class PostService {
 
     private final PostRepository postRepository;
 
-    public ApiResponse list() throws ServiceException {
-        List<Post> postList = postRepository.findAll();
+       public ApiResponse list(PageDTO pageDTO) throws ServiceException {
+        List<PostDTO> postList = postRepository.findAllByDynamicQueryDsl(pageDTO);
         return ApiResponse.createSuccess(postList);
     }
 
@@ -42,7 +43,7 @@ public class PostService {
                 .view(view)
                 .build();
         post.updateVisit(postDTO.view());
-        return ApiResponse.createSuccess(ResponseCode.SUCCESS.code());
+        return ApiResponse.createSuccess(post);
     }
 
     @Transactional
