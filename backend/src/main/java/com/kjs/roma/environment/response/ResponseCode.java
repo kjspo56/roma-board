@@ -1,4 +1,4 @@
-package com.kjs.roma.response;
+package com.kjs.roma.environment.response;
 
 public enum ResponseCode {
     FAIL("0"),

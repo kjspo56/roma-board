@@ -3,10 +3,6 @@ package com.kjs.roma.environment.config;
 import com.kjs.roma.resource.PostResource;
 import com.kjs.roma.resource.UserResource;
 import jakarta.servlet.ServletConfig;
-import jakarta.ws.rs.ApplicationPath;
-import org.glassfish.jersey.server.ResourceConfig;
-import org.glassfish.jersey.server.ServerProperties;
-import org.glassfish.jersey.servlet.ServletProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.context.ServletConfigAware;
 

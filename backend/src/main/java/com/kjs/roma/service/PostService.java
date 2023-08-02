@@ -5,7 +5,7 @@ import com.kjs.roma.dto.post.PostDTO;
 import com.kjs.roma.environment.response.ApiResponse;
 import com.kjs.roma.model.post.Post;
 import com.kjs.roma.repository.post.PostRepository;
-import com.kjs.roma.response.ResponseCode;
+import com.kjs.roma.environment.response.ResponseCode;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;

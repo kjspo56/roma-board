@@ -11,7 +11,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @Configuration
 @EnableJpaAuditing
 @EnableJpaRepositories(basePackages = "com.kjs.roma")
-public class JPAConfig {
+public class QueryDslConfig {
 
     @PersistenceContext
     private EntityManager entityManager;
