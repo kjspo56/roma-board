@@ -2,9 +2,9 @@ server:
   port: 9096
 
 spring:
-  profiles:
-    active: aws
-    include: oauth
+#  profiles:
+#    active: aws
+#    include: oauth
   sql:
     init:
       mode: always
@@ -12,7 +12,12 @@ spring:
       encoding: UTF-8
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     show-sql: true
     format-sql: true
+  datasource:
+    url: jdbc:postgresql://localhost:5432/roma
+    username: roman
+    password: 1234
+    driver-class-name: org.postgresql.Driver
