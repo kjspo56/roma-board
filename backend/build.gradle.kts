@@ -33,7 +33,7 @@ node {
 
 group = "com.kjs"
 version = "0.0.1-SNAPSHOT"
-java.sourceCompatibility = JavaVersion.VERSION_17
+java.sourceCompatibility = JavaVersion.VERSION_19
 
 configurations {
 	compileOnly {
@@ -46,11 +46,12 @@ repositories {
 }
 
 dependencies {
-	implementation("org.springframework.boot:spring-boot-starter-jersey")
+//	implementation("org.springframework.boot:spring-boot-starter-jersey")
 	//implementation("org.springframework.boot:spring-boot-starter-security")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-//	implementation("org.springframework.security:spring-security-oauth2-client:6.0.2")
+	implementation("org.springframework.security:spring-security-oauth2-client:6.0.2")
+	implementation ("org.springframework.boot:spring-boot-starter-validation")
 	//DB
 	implementation("org.postgresql:postgresql:42.5.3")
 	implementation("org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16")
@@ -60,9 +61,12 @@ dependencies {
 	implementation("io.jsonwebtoken:jjwt-jackson:0.11.5")
 	//QueryDSL
 	implementation("com.querydsl:querydsl-jpa:5.0.0:jakarta")
+
 	implementation("org.projectlombok:lombok:1.18.22")
 
 	implementation("org.mapstruct:mapstruct:1.5.3.Final")
+	implementation("org.jetbrains:annotations:24.0.0")
+
 
 	providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
 
@@ -108,7 +112,10 @@ val cleanFrontTask = tasks.register("cleanFront", Delete::class) {
 
 val generated = "src/main/generated"
 
-tasks.withType<JavaCompile> {
+tasks.withType<JavaCompile>().configureEach {
+	options.compilerArgs.addAll(listOf(
+			"--enable-preview",
+			"-Amapstruct.unmappedTargetPolicy=IGNORE")) // ignore unmapped target global setting
 	options.generatedSourceOutputDirectory.set(file(generated))
 }
 
@@ -116,19 +123,14 @@ java.sourceSets["main"].java {
 	srcDir(generated)
 }
 
+tasks.withType<Test>().configureEach {
+	jvmArgs("--enable-preview")
+}
+
+tasks.withType<JavaExec>().configureEach {
+	jvmArgs("--enable-preview")
+}
+
 tasks.withType<Test> {
 	useJUnitPlatform()
-}
-
-tasks.bootJar {
-	dependsOn(copyTask)
-}
-
-tasks.bootWar {
-	dependsOn(copyTask)
-}
-
-tasks.clean {
-	dependsOn(cleanFrontTask)
-	delete(generated)
 }

@@ -8,4 +8,5 @@ import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 public interface PostRepository extends JpaRepository<Post, Long>, JpaSpecificationExecutor<Post>, PostQueryDslRepository, QuerydslPredicateExecutor<Post> {
 
 
+    boolean existsByTitle(String title);
 }

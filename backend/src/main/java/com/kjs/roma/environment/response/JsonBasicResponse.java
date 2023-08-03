@@ -1,6 +1,6 @@
 package com.kjs.roma.environment.response;
 
-import net.ion.act.cmscore.environment.utils.BeanUtils;
+import com.kjs.roma.environment.utils.BeanUtils;
 import org.springframework.context.support.MessageSourceAccessor;
 
 import java.sql.Timestamp;

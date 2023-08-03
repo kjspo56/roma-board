@@ -1,19 +1,15 @@
 package com.kjs.roma.service;
 
-import com.kjs.roma.dto.page.PageDTO;
 import com.kjs.roma.dto.post.PostDTO;
-import com.kjs.roma.environment.response.ApiResponse;
+import com.kjs.roma.environment.response.JsonResponse;
+import com.kjs.roma.mapper.post.PostMapper;
 import com.kjs.roma.model.post.Post;
 import com.kjs.roma.repository.post.PostRepository;
 import com.kjs.roma.environment.response.ResponseCode;
-import jakarta.persistence.EntityNotFoundException;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.service.spi.ServiceException;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -22,59 +18,32 @@ import java.util.Optional;
 public class PostService {
 
     private final PostRepository postRepository;
+    private final PostMapper postMapper;
 
-       public ApiResponse list(PageDTO pageDTO) throws ServiceException {
-        List<PostDTO> postList = postRepository.findAllByDynamicQueryDsl(pageDTO);
-        return ApiResponse.createSuccess(postList);
-    }
+    public JsonResponse create(PostDTO postDTO){
+        //duplicate check
+        boolean check = duplicateTitleCheck(postDTO.title());
+        if(check){
+            return JsonResponse.create(ResponseCode.CONFLICT_DATA.code());
+            //menu.updateTitle(menu.getMenuTitle() + duplicateTitle(menu.getMenuTitle()));
+        }else{
+            Optional<Post> updateChild = postRepository.findById(postDTO.seq());
+            if(updateChild.isPresent()){
+//                updateChild.get().updateChildYn("Y");
+                postRepository.save(updateChild.get());
 
-    public ApiResponse get(long seq) throws ServiceException {
-        Post post = postRepository.findById(seq).orElseThrow(EntityNotFoundException::new);
-        return ApiResponse.createSuccess(post);
-    }
+                Post menu = postMapper.toEntity(postDTO);
+                postRepository.save(menu);
 
-    @Transactional
-    public ApiResponse updateVisit(long seq) throws ServiceException {
-        Post post = postRepository.findById(seq).orElseThrow((() ->
-                new IllegalStateException("This post does not exist.")));
-
-        int view = post.getView() + 1;
-        PostDTO postDTO = PostDTO.builder()
-                .view(view)
-                .build();
-        post.updateVisit(postDTO.view());
-        return ApiResponse.createSuccess(post);
-    }
-
-    @Transactional
-    public ApiResponse create(PostDTO postDTO) {
-        Post post = Post.builder()
-                .title(postDTO.title())
-                .content(postDTO.content())
-                .writer(postDTO.writer())
-                .view(postDTO.view())
-                .build();
-        postRepository.save(post);
-        return ApiResponse.createSuccess(postDTO);
-    }
-
-    @Transactional
-    public ApiResponse update(PostDTO postDTO) {
-        Post existingPost = postRepository.findById(postDTO.seq()).orElseThrow(EntityNotFoundException::new);
-        existingPost.modifyPost(postDTO.title(), postDTO.content(), postDTO.writer());
-        Post updatePost = postRepository.save(existingPost);
-        return ApiResponse.createSuccess(updatePost);
-    }
-
-    @Transactional
-    public ApiResponse delete(Long seq) {
-        Optional<Post> optionalPost = postRepository.findById(seq);
-        if (optionalPost.isPresent()) {
-            postRepository.deleteById(seq);
-            return ApiResponse.createSuccess(ResponseCode.SUCCESS.code());
-        } else {
-            throw new ServiceException(ResponseCode.NO_DATA_FOUND.code());
+                return JsonResponse.create(postMapper.toDto(menu));
+            }else{
+                return JsonResponse.create(ResponseCode.NO_DATA_FOUND.code());
+            }
         }
+    }
+
+    public boolean duplicateTitleCheck(String title){
+        return postRepository.existsByTitle(title);
     }
 
 }
