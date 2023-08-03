@@ -6,10 +6,7 @@ import com.kjs.roma.service.PostService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.service.spi.ServiceException;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/post")
@@ -21,5 +18,10 @@ public class PostController {
     @PostMapping("/")
     public JsonResponse create(@RequestBody PostDTO postDTO) throws ServiceException {
         return postService.create(postDTO);
+    }
+
+    @PutMapping("/")
+    public JsonResponse update(@RequestBody PostDTO postDTO) throws ServiceException {
+        return postService.update(postDTO);
     }
 }

@@ -23,6 +23,8 @@ public class Post extends CommonField {
     @Column(columnDefinition = "integer default 0", nullable = false)
     private int view;
 
+//    private String childYn;
+
     @Builder
     public Post(Long seq, String title, String content, String writer, int view){
         this.seq = seq;
@@ -32,13 +34,7 @@ public class Post extends CommonField {
         this.view = view;
     }
 
-    public void modifyPost(String title, String content, String writer){
-        this.title = title;
-        this.content = content;
-        this.writer = writer;
-    }
-
-    public void updateVisit(int view){
-        this.view = view;
-    }
+//    public void updateChildYn(String childYn){
+//        this.childYn = childYn;
+//    }
 }
