@@ -33,7 +33,7 @@ node {
 
 group = "com.kjs"
 version = "0.0.1-SNAPSHOT"
-java.sourceCompatibility = JavaVersion.VERSION_19
+java.sourceCompatibility = JavaVersion.VERSION_17
 
 configurations {
 	compileOnly {
@@ -118,6 +118,7 @@ tasks.withType<JavaCompile>().configureEach {
 			"-Amapstruct.unmappedTargetPolicy=IGNORE")) // ignore unmapped target global setting
 	options.generatedSourceOutputDirectory.set(file(generated))
 }
+
 
 java.sourceSets["main"].java {
 	srcDir(generated)

@@ -17,7 +17,7 @@ import java.util.concurrent.Executors;
         havingValue = "virtual"
 )
 public class ThreadConfig {
-    @Bean
+   /* @Bean
     public AsyncTaskExecutor applicationTaskExecutor() {
         return new TaskExecutorAdapter(Executors.newVirtualThreadPerTaskExecutor());
     }
@@ -27,6 +27,6 @@ public class ThreadConfig {
         return protocolHandler -> {
             protocolHandler.setExecutor(Executors.newVirtualThreadPerTaskExecutor());
         };
-    }
+    }*/
 
 }
