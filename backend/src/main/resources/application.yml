@@ -15,10 +15,17 @@ spring:
       ddl-auto: update
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     show-sql: true
-    format-sql: true
   datasource:
     url: jdbc:postgresql://localhost:5432/roma
     username: roman
     password: 1234
     driver-class-name: org.postgresql.Driver
 
+  #messages: 해당 부분은 MessageConfig로 따로 정의하였음.
+  #  basename: messages/messages #message 파일 경로(여러 파일 사용할 경우 콤마로 구분하여 사용 가능)
+  #  encoding: UTF-8 #인코딩 방식
+  #  cache-duration: PT1H #캐시 주기 설정, 기본값 forever. PT1H : 1시간(ISO 8601 표준에 정의 되어 있음.)
+
+#logging:
+  #level:
+   # org.springframework.context: DEBUG
