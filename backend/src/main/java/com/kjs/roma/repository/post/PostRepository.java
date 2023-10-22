@@ -10,5 +10,5 @@ public interface PostRepository extends JpaRepository<Post, Long>, JpaSpecificat
 
     boolean existsByTitle(String title);
 
-    int countBySeq(Long parentSeq);
+    int countByPostId(Long parentId);
 }

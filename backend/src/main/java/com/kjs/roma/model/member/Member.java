@@ -1,4 +1,4 @@
-package com.kjs.roma.model.user;
+package com.kjs.roma.model.member;
 
 import com.kjs.roma.model.CommonField;
 import jakarta.persistence.*;
@@ -9,13 +9,13 @@ import lombok.*;
 @Builder
 @Getter
 @Entity
-@Table(name = "_user")
+@Table(name = "member")
 @ToString
-public class User extends CommonField{
+public class Member extends CommonField{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long seq;
+    private Long memberId;
 
     @Column(nullable = false, length = 30, unique = true)
     private String username;
@@ -34,15 +34,15 @@ public class User extends CommonField{
     private Role role;
 
     @Builder
-    public User(Long seq, String username, String nickname, String email, Role role){
-        this.seq = seq;
+    public Member(Long memberId, String username, String nickname, String email, Role role){
+        this.memberId = memberId;
         this.username = username;
         this.nickname = nickname;
         this.email = email;
         this.role = role;
     }
 
-    public User update(String username){
+    public Member update(String username){
         this.username = username;
         return this;
     }

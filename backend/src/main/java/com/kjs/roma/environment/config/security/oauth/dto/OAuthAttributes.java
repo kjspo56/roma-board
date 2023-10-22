@@ -1,7 +1,7 @@
 package com.kjs.roma.environment.config.security.oauth.dto;
 
-import com.kjs.roma.model.user.Role;
-import com.kjs.roma.model.user.User;
+import com.kjs.roma.model.member.Role;
+import com.kjs.roma.model.member.Member;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -61,8 +61,8 @@ public class OAuthAttributes {
                 .build();
     }*/
 
-    public User toEntity() {
-        return User.builder()
+    public Member toEntity() {
+        return Member.builder()
                 .username(username)
                 .email(email)
                 .role(Role.USER)

@@ -2,7 +2,7 @@ package com.kjs.roma.controller;
 
 import com.kjs.roma.dto.post.PostDTO;
 import com.kjs.roma.environment.response.JsonResponse;
-import com.kjs.roma.service.PostService;
+import com.kjs.roma.service.post.PostService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.service.spi.ServiceException;

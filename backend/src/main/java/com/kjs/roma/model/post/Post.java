@@ -11,9 +11,8 @@ import lombok.*;
 public class Post extends CommonField {
 
     @Id
-    @Column(name = "seq", nullable = false, unique = true)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long seq;
+    private Long postId;
     @Column(length = 500, nullable = false)
     private String title;
     @Column(columnDefinition = "TEXT", nullable = false)
@@ -26,8 +25,8 @@ public class Post extends CommonField {
 //    private String childYn;
 
     @Builder
-    public Post(Long seq, String title, String content, String writer, int view){
-        this.seq = seq;
+    public Post(Long postId, String title, String content, String writer, int view){
+        this.postId = postId;
         this.title = title;
         this.content = content;
         this.writer = writer;

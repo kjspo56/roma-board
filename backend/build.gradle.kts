@@ -66,6 +66,7 @@ dependencies {
 
 	implementation("org.mapstruct:mapstruct:1.5.3.Final")
 	implementation("org.jetbrains:annotations:24.0.0")
+	implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
 
 
 	providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")

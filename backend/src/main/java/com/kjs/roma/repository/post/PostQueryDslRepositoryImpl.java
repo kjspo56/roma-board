@@ -33,9 +33,9 @@ public class PostQueryDslRepositoryImpl implements PostQueryDslRepository{
         BooleanBuilder builder = new BooleanBuilder();
 
         String title = pageDTO.getValue("title");
-        Integer seq = pageDTO.getValue("seq");
+        Integer postId = pageDTO.getValue("postId");
 
-        if(pageDTO.getSearchOption().size() > 0){ //size = 0 -> list All , size > 0 -> search
+        if(!pageDTO.getSearchOption().isEmpty()){ //size = 0 -> list All , size > 0 -> search
             for(SearchOptionDTO searchOption : pageDTO.getSearchOption()){
                 String key = searchOption.getKey();
                 String value = (String) searchOption.getValue();
@@ -52,18 +52,18 @@ public class PostQueryDslRepositoryImpl implements PostQueryDslRepository{
         }
 
         return jpaQueryFactory.select(
-                        Projections.constructor(PostDTO.class, post.seq, post.title, post.content, post.writer, post.view)
+                        Projections.constructor(PostDTO.class, post.postId, post.title, post.content, post.writer, post.view)
                 )
                 .from(post)
-                .where(builder.or(titleEq(title)), seqEq(seq))
+                .where(builder.or(titleEq(title)), postIdEq(postId))
                 .offset(pageRequest.getOffset())
                 .limit(pageRequest.getPageSize())
                 .orderBy(pageDTO.queryDslOrder(fieldPath))
                 .fetch();
     }
 
-    private BooleanExpression seqEq(Integer seq) {
-        return seq == null ? null : post.seq.eq(Long.valueOf(seq));
+    private BooleanExpression postIdEq(Integer postId) {
+        return postId == null ? null : post.postId.eq(Long.valueOf(postId));
     }
 
     private BooleanExpression titleEq(String title) {

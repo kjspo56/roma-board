@@ -4,11 +4,11 @@ import com.kjs.roma.model.post.Post;
 import lombok.Builder;
 
 @Builder
-public record PostDTO(Long seq, String title, String content, String writer, int view) {
+public record PostDTO(Long postId, String title, String content, String writer, int view) {
 
     public Post toEntity(){
         return Post.builder()
-                .seq(seq)
+                .postId(postId)
                 .title(title)
                 .content(content)
                 .writer(writer)

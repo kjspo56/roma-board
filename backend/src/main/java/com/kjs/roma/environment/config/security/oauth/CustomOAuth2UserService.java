@@ -2,8 +2,8 @@ package com.kjs.roma.environment.config.security.oauth;
 
 import com.kjs.roma.environment.config.security.oauth.dto.OAuthAttributes;
 import com.kjs.roma.environment.config.security.oauth.dto.SessionUser;
-import com.kjs.roma.model.user.User;
-import com.kjs.roma.repository.user.UserRepository;
+import com.kjs.roma.model.member.Member;
+import com.kjs.roma.repository.member.MemberRepository;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -23,11 +23,11 @@ import java.util.Collections;
 @Service
 public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
 
-    private final UserRepository userRepository;
+    private final MemberRepository memberRepository;
     private final HttpSession httpSession;
 
-    public CustomOAuth2UserService(UserRepository userRepository, HttpSession httpSession){
-        this.userRepository = userRepository;
+    public CustomOAuth2UserService(MemberRepository memberRepository, HttpSession httpSession){
+        this.memberRepository = memberRepository;
         this.httpSession = httpSession;
     }
 
@@ -41,26 +41,26 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
         OAuthAttributes attributes = OAuthAttributes.of(registrationId, userNameAttributesName, oAuth2User.getAttributes());
 
-        User user = saveOrUpdate(attributes);
+        Member member = saveOrUpdate(attributes);
         //httpSession.setAttribute("user", new SessionUser(user));
 
-        UserDetails userDetails = new SessionUser(user);
+        UserDetails userDetails = new SessionUser(member);
         Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
 
         return new DefaultOAuth2User(
-                Collections.singleton(new SimpleGrantedAuthority(user.getRoleKey())),
+                Collections.singleton(new SimpleGrantedAuthority(member.getRoleKey())),
                         attributes.getAttributes(),
                         attributes.getNameAttributeKey()
         );
     }
 
-    private User saveOrUpdate(OAuthAttributes attributes){
-        User user = userRepository.findByEmail(attributes.getEmail())
+    private Member saveOrUpdate(OAuthAttributes attributes){
+        Member member = memberRepository.findByEmail(attributes.getEmail())
                 .map(entity -> entity.update(attributes.getUsername()))
                 .orElse(attributes.toEntity());
 
-        return userRepository.save(user);
+        return memberRepository.save(member);
     }
 }

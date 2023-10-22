@@ -1,4 +1,4 @@
-package com.kjs.roma.service;
+package com.kjs.roma.service.post;
 
 import com.kjs.roma.dto.post.PostDTO;
 import com.kjs.roma.dto.post.PostListDTO;
@@ -33,7 +33,7 @@ public class PostService {
             return JsonResponse.create(ResponseCode.CONFLICT_DATA.code());
             //menu.updateTitle(menu.getMenuTitle() + duplicateTitle(menu.getMenuTitle()));
         }else{
-            Optional<Post> updateChild = postRepository.findById(postDTO.seq());
+            Optional<Post> updateChild = postRepository.findById(postDTO.postId());
             if(updateChild.isPresent()){
 //                updateChild.get().updateChildYn("Y");
                 postRepository.save(updateChild.get());
@@ -50,8 +50,8 @@ public class PostService {
     @Transactional
     public JsonResponse update(PostDTO postDTO) {
         boolean check = duplicateTitleCheck(postDTO.title());
-        Post post = postRepository.findById(postDTO.seq()).orElseThrow(()-> new SecurityException(ResponseCode.NO_DATA_FOUND.code()));
-        Long parentSeq = post.getSeq();
+        Post post = postRepository.findById(postDTO.postId()).orElseThrow(()-> new SecurityException(ResponseCode.NO_DATA_FOUND.code()));
+        Long parentId = post.getPostId();
         if(check && !Objects.equals(post.getTitle(), postDTO.title())){
             return JsonResponse.create(ResponseCode.CONFLICT_DATA.code());
         }else{
@@ -64,38 +64,37 @@ public class PostService {
     public JsonResponse list(PostListDTO postListDTO){
 //        List<Post> posts = postRepository.findMenuByParentSeqAndUseYn(postListDTO.parentSeq(),"Y");
         List<Post> posts =postRepository.findAll();
-        if(posts.size() == 0){
+        if(posts.isEmpty()){
             return JsonResponse.create(ResponseCode.NO_DATA_FOUND.code());
         }
         return JsonResponse.create(posts.stream().map(postMapper::toDto).collect(Collectors.toList()));
     }
 
-    public JsonResponse get(Long seq){
-        Post post = postRepository.findById(seq).orElseThrow(() -> new ServiceException(ResponseCode.NO_DATA_FOUND.code()));
-
+    public JsonResponse get(Long postId){
+        Post post = postRepository.findById(postId).orElseThrow(() -> new ServiceException(ResponseCode.NO_DATA_FOUND.code()));
         return JsonResponse.create(postMapper.toDto(post));
     }
 
     @Transactional
-    public JsonResponse delete(Long seq){
-        Post post = postRepository.findById(seq).orElseThrow(() -> new ServiceException(ResponseCode.NO_DATA_FOUND.code()));
+    public JsonResponse delete(Long postId){
+        Post post = postRepository.findById(postId).orElseThrow(() -> new ServiceException(ResponseCode.NO_DATA_FOUND.code()));
 //        int cnt = postRepository.countByParentSeq(seq);
         int cnt = 0;
         if(cnt == 0){
             //groupService.deleteMappingMenus(seq);
-            postRepository.deleteById(seq);
+            postRepository.deleteById(postId);
 
-            childCheck(post.getSeq());
+            childCheck(post.getPostId());
         }else{
             return JsonResponse.create(ResponseCode.OTHERS.code(), "하위 메뉴 존재");
         }
         return JsonResponse.create(ResponseCode.SUCCESS.code());
     }
 
-    public void childCheck(Long parentSeq){
-        int parentSeqCnt = postRepository.countBySeq(parentSeq);
+    public void childCheck(Long parentId){
+        int parentSeqCnt = postRepository.countByPostId(parentId);
         //int parentSeqCnt = 0;
-        Post parent = postRepository.findById(parentSeq).orElseThrow(() -> new ServiceException(ResponseCode.NO_DATA_FOUND.code()));
+        Post parent = postRepository.findById(parentId).orElseThrow(() -> new ServiceException(ResponseCode.NO_DATA_FOUND.code()));
         if(parentSeqCnt == 0){
 //            parent.updateChildYn("N");
         }else{

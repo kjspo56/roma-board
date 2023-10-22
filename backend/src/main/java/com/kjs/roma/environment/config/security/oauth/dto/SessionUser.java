@@ -1,6 +1,6 @@
 package com.kjs.roma.environment.config.security.oauth.dto;
 
-import com.kjs.roma.model.user.User;
+import com.kjs.roma.model.member.Member;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,10 +10,10 @@ import java.util.Collection;
 
 @Getter
 public class SessionUser implements UserDetails {
-    private User user;
+    private Member member;
 
-    public SessionUser(User user){
-        this.user = user;
+    public SessionUser(Member member){
+        this.member = member;
     }
 
     @Override
@@ -21,7 +21,7 @@ public class SessionUser implements UserDetails {
         Collection<GrantedAuthority> collections = new ArrayList<>();
 
         collections.add(() -> {
-            return "ROLE_" + user.getRole();
+            return "ROLE_" + member.getRole();
         });
 
         return collections;
@@ -29,12 +29,12 @@ public class SessionUser implements UserDetails {
 
     @Override
     public String getPassword() {
-        return user.getPassword();
+        return member.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return user.getUsername();
+        return member.getUsername();
     }
 
     @Override
