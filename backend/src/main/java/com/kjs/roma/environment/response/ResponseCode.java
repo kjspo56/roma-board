@@ -13,6 +13,7 @@ public enum ResponseCode {
     LOGIN_NOT_FOUND("15"),
     JWT_TOKEN_EXPIRED("16"),
     INVALID_PASSWORD("17"),
+    USE_EMAIL("18"),
     API_NOT_FOUND("100"),
     NO_DATA_FOUND("101"),
     INVALID_FORMAT("102"),

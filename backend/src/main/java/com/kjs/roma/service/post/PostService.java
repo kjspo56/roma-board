@@ -27,25 +27,9 @@ public class PostService {
     private final PostMapper postMapper;
 
     public JsonResponse create(PostDTO postDTO){
-        //duplicate check
-        boolean check = duplicateTitleCheck(postDTO.title());
-        if(check){
-            return JsonResponse.create(ResponseCode.CONFLICT_DATA.code());
-            //menu.updateTitle(menu.getMenuTitle() + duplicateTitle(menu.getMenuTitle()));
-        }else{
-            Optional<Post> updateChild = postRepository.findById(postDTO.postId());
-            if(updateChild.isPresent()){
-//                updateChild.get().updateChildYn("Y");
-                postRepository.save(updateChild.get());
-                Post menu = postMapper.toEntity(postDTO);
-                postRepository.save(menu);
-
-                return JsonResponse.create(postMapper.toDto(menu));
-            }else{
-                return JsonResponse.create(ResponseCode.NO_DATA_FOUND.code());
-            }
+            Post post = postMapper.toEntity(postDTO);
+            return JsonResponse.create(postMapper.toDto(postRepository.save(post)));
         }
-    }
 
     @Transactional
     public JsonResponse update(PostDTO postDTO) {

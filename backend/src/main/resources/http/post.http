@@ -1,0 +1,10 @@
+### Create - 게시물 등록
+POST http://localhost:9096/post/
+Content-Type: application/json
+
+{
+  "title": "test",
+  "content": "test",
+  "writer": "test",
+  "view": 1
+}

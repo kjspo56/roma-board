@@ -17,7 +17,7 @@ public class Member extends CommonField{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long memberId;
 
-    @Column(nullable = false, length = 30, unique = true)
+    @Column(nullable = false, length = 30)
     private String username;
 
     @Column(length = 100)
@@ -26,7 +26,7 @@ public class Member extends CommonField{
     @Column
     private String nickname;
 
-    @Column(nullable = false, length = 50)
+    @Column(nullable = false, length = 50, unique = true)
     private String email;
 
     @Enumerated(EnumType.STRING)

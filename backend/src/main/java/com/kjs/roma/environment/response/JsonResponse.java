@@ -1,6 +1,5 @@
 package com.kjs.roma.environment.response;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.domain.PageImpl;
@@ -16,8 +15,6 @@ import java.util.List;
 public class JsonResponse implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
-    @Getter(onMethod_ = @JsonIgnore)
-    protected final String MSG_BEAN_NAME = "messageSourceAccessor";
 
     protected String resultCode;
     protected String resultMsg;

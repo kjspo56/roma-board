@@ -7,14 +7,4 @@ import lombok.Builder;
 @Builder
 public record MemberDTO(Long memberId, String username, String password, String nickname, String email, Role role) {
 
-    public Member toEntity(){
-        Member member = Member.builder()
-                .username(username)
-                .password(password)
-                .nickname(nickname)
-                .email(email)
-                .role(role)
-                .build();
-        return member;
-    }
 }

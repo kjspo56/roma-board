@@ -1,0 +1,11 @@
+### Register - 회원가입
+POST http://localhost:9096/member/register
+Content-Type: application/json
+
+{
+  "username": "김정수",
+  "password": "1234",
+  "nickname": "로춘남",
+  "email": "tes65@test.com",
+  "role": "USER"
+}

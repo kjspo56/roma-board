@@ -1,5 +1,4 @@
 import com.github.gradle.node.npm.task.NpmTask
-import java.util.regex.Pattern.compile
 
 plugins {
 	java
@@ -46,7 +45,6 @@ repositories {
 }
 
 dependencies {
-//	implementation("org.springframework.boot:spring-boot-starter-jersey")
 	//implementation("org.springframework.boot:spring-boot-starter-security")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
@@ -67,6 +65,7 @@ dependencies {
 	implementation("org.mapstruct:mapstruct:1.5.3.Final")
 	implementation("org.jetbrains:annotations:24.0.0")
 	implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
+	implementation("com.google.guava:guava:30.1.1-jre")
 
 
 	providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
