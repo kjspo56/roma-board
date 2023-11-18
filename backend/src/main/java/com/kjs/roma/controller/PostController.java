@@ -16,12 +16,27 @@ public class PostController {
     private final PostService postService;
 
     @PostMapping("/")
-    public JsonResponse create(@RequestBody PostDTO postDTO) throws ServiceException {
+    public JsonResponse create(@RequestBody PostDTO postDTO) {
         return postService.create(postDTO);
     }
 
     @PutMapping("/")
-    public JsonResponse update(@RequestBody PostDTO postDTO) throws ServiceException {
+    public JsonResponse update(@RequestBody PostDTO postDTO) {
         return postService.update(postDTO);
+    }
+
+    @PostMapping("/list")
+    public JsonResponse getList() {
+        return postService.getList();
+    }
+
+    @GetMapping("/{postId}")
+    public JsonResponse get(@PathVariable("postId") Long postId) {
+        return postService.get(postId);
+    }
+
+    @DeleteMapping("/{postId}")
+    public JsonResponse delete(@PathVariable("postId") Long postId){
+        return postService.delete(postId);
     }
 }

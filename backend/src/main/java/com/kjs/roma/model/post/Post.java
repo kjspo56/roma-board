@@ -33,6 +33,11 @@ public class Post extends CommonField {
         this.view = view;
     }
 
+    public void updatePost(String title, String content){
+        this.title = title;
+        this.content = content;
+    }
+
 //    public void updateChildYn(String childYn){
 //        this.childYn = childYn;
 //    }

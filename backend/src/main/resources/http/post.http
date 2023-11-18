@@ -8,3 +8,28 @@ Content-Type: application/json
   "writer": "test",
   "view": 1
 }
+
+### Update - 게시물 수정
+PUT http://localhost:9096/post/
+Content-Type: application/json
+
+{
+  "postId": 5,
+  "title": "test2",
+  "content": "test2",
+  "writer": "test",
+  "view": 1
+}
+
+### List - 게시물 목록
+POST http://localhost:9096/post/list
+Content-Type: application/json
+
+
+### getPost - 게시물 상세조회
+GET http://localhost:9096/post/2
+Content-Type: application/json
+
+### Delete - 게시물 삭제
+DELETE http://localhost:9096/post/4
+Content-Type: application/json
