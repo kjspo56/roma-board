@@ -1,24 +1,30 @@
-import { createRouter, createWebHistory } from 'vue-router'
-//import HomeView from '../views/HomeView.vue'
-import PageHome from "@/views/PageHome";
-
+// router/index.js
+import { createRouter, createWebHistory } from 'vue-router';
+import PostListView from "@/views/PostListView.vue";
+import HomeView from "@/views/HomeView.vue";
+import PostDetailView from "@/views/PostDetailView.vue";
 
 const routes = [
   {
-    path: '/',
-    name: 'PageHome',
-    component: PageHome
+    path: '/posts',
+    name: 'HomeView',
+    component: HomeView,
   },
   {
-    path: '/about',
-    name: 'About',
-    component: () => import(/* webpackChunkName: "about" */ '../views/PageAbout.vue')
-  }
-]
+    path: '/posts/list',
+    name: 'PostList',
+    component: PostListView
+  },
+  {
+     path: '/posts/:id',
+     name: 'PostDetail',
+     component: PostDetailView
+   }
+];
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
-})
+});
 
-export default router
+export default router;
