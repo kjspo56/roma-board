@@ -1,6 +1,6 @@
 <!-- PostList.vue -->
 <template>
-  <div>
+  <div class="post-list">
     <h2>게시글 목록</h2>
     <table>
       <thead>
@@ -14,9 +14,9 @@
       </tr>
       </thead>
       <tbody>
-      <tr v-for="post in postList" :key="post.postId">
-        <td>{{ post.postId }}</td>
-        <td><router-link :to="{ name: 'PostDetail', params: { id: post.postId }}">{{ post.title }}</router-link></td>
+      <tr v-for="post in result" v-bind:key="post.postId">
+        <td>{{ post.title }}</td>
+        <!--<td><router-link :to="{ name: 'PostDetail', params: { id: result.postId }}">{{ result.title }}</router-link></td> -->
         <td>{{ post.writer }}</td>
         <td>{{ post.postLike }}</td>
         <td>{{ post.regDate }}</td>
@@ -25,32 +25,60 @@
       </tbody>
     </table>
   </div>
+  <div class="d-flex">
+    <button type="button" class="btn btn-primary">등록</button>
+  </div>
 </template>
 
 <script>
 import axios from "axios";
 
+// export default {
+//   data() {
+//     return {
+//       postList: []
+//     };
+//   },
+//   mounted() {
+//     this.fetchPostList();
+//   },
+//   methods: {
+//     fetchPostList() {
+//       axios.post('http://localhost:9096/post/list')
+//           .then(response => {
+//             this.postList = response.data.data;
+//           })
+//           .catch(error => {
+//             console.error("Error fetching postList:", error);
+//           });
+//     }
+//   }
+// };
+
 export default {
-  data() {
+  name: 'PostList',
+  data(){
     return {
-      postList: []
-    };
+      result: []
+    }
   },
-  mounted() {
-    this.fetchPostList();
+  created() {
+    this.getData()
   },
   methods: {
-    fetchPostList() {
-      axios.post('http://localhost:9096/post/list')
-          .then(response => {
-            this.postList = response.data.data;
-          })
-          .catch(error => {
-            console.error("Error fetching postList:", error);
-          });
-    }
-  }
-};
+       getData(){
+         axios
+             .post('http://localhost:9096/post/list')
+             .then(res => {
+               console.log(res)
+               this.result = res.data.result
+             })
+             .catch((error)=>{
+               console.log(error)
+             })
+       }
+     }
+}
 </script>
 
 <style scoped>

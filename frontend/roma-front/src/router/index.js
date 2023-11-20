@@ -1,8 +1,10 @@
 // router/index.js
 import { createRouter, createWebHistory } from 'vue-router';
-import PostListView from "@/views/PostListView.vue";
+import PostListView from "@/views/post/PostListView.vue";
 import HomeView from "@/views/HomeView.vue";
-import PostDetailView from "@/views/PostDetailView.vue";
+import PostDetailView from "@/views/post/PostDetailView.vue";
+import PostUpdateView from "@/views/post/PostUpdateView.vue";
+import PostCreateView from "@/views/post/PostCreateView.vue";
 
 const routes = [
   {
@@ -19,8 +21,17 @@ const routes = [
      path: '/posts/:id',
      name: 'PostDetail',
      component: PostDetailView,
-     props: true
-   }
+   },
+   {
+     path: '/posts/save',
+     name: 'PostCreate',
+     component: PostCreateView,
+   },
+   {
+     path: '/posts/editById',
+     name: 'PostUpdate',
+     component: PostUpdateView,
+   },
 ];
 
 const router = createRouter({

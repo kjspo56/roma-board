@@ -1,0 +1,9 @@
+.common-button {
+    padding: 8px;
+    text-align: right;
+}
+
+.post-list {
+    width: 768px;
+    margin: auto;
+}

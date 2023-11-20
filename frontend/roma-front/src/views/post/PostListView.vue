@@ -1,4 +1,3 @@
-<!-- PostListView.vue -->
 <template>
   <div>
     <PageHeader/>
