@@ -4,9 +4,7 @@ import com.kjs.roma.model.CommonField;
 import jakarta.persistence.*;
 import lombok.*;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
 @Table(name = "member")
@@ -34,9 +32,10 @@ public class Member extends CommonField{
     private Role role;
 
     @Builder
-    public Member(Long memberId, String username, String nickname, String email, Role role){
+    public Member(Long memberId, String username, String password, String nickname, String email, Role role){
         this.memberId = memberId;
         this.username = username;
+        this.password = password;
         this.nickname = nickname;
         this.email = email;
         this.role = role;

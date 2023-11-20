@@ -1,7 +1,9 @@
 package com.kjs.roma.mapper.post;
 
 import com.kjs.roma.dto.post.PostDTO;
+import com.kjs.roma.dto.post.PostListDTO;
 import com.kjs.roma.model.post.Post;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -11,7 +13,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-10-22T22:43:47+0900",
+    date = "2023-11-20T21:04:59+0900",
     comments = "version: 1.5.3.Final, compiler: javac, environment: Java 17.0.5 (Amazon.com Inc.)"
 )
 @Component
@@ -112,5 +114,30 @@ public class PostMapperImpl implements PostMapper {
         if ( dto == null ) {
             return;
         }
+    }
+
+    @Override
+    public PostListDTO postToPostListDTO(Post post) {
+        if ( post == null ) {
+            return null;
+        }
+
+        Long postId = null;
+        String title = null;
+        String writer = null;
+        int view = 0;
+        int postLike = 0;
+        Timestamp regDate = null;
+
+        postId = post.getPostId();
+        title = post.getTitle();
+        writer = post.getWriter();
+        view = post.getView();
+        postLike = post.getPostLike();
+        regDate = post.getRegDate();
+
+        PostListDTO postListDTO = new PostListDTO( postId, title, writer, view, postLike, regDate );
+
+        return postListDTO;
     }
 }

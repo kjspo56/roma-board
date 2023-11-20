@@ -6,7 +6,7 @@ import PostDetailView from "@/views/PostDetailView.vue";
 
 const routes = [
   {
-    path: '/posts',
+    path: '/main',
     name: 'HomeView',
     component: HomeView,
   },
@@ -18,7 +18,8 @@ const routes = [
   {
      path: '/posts/:id',
      name: 'PostDetail',
-     component: PostDetailView
+     component: PostDetailView,
+     props: true
    }
 ];
 

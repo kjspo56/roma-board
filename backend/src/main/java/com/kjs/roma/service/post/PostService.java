@@ -88,11 +88,13 @@ public class PostService {
      * @return
      */
     public JsonResponse getList(){
-        Page<Post> posts = postRepository.findAll(Pageable.unpaged());
-        if(posts.isEmpty()){
+        List<Post> postEntityList = postRepository.findAll();
+        if(postEntityList.isEmpty()){
             return JsonResponse.create(ResponseCode.NO_DATA_FOUND.code());
         }
-        return JsonResponse.create(posts.stream().map(postMapper::toDto).collect(Collectors.toList()));
+        List<PostListDTO> postList = postEntityList.stream()
+                .map(postMapper::postToPostListDTO).collect(Collectors.toList());
+        return JsonResponse.create(postList);
     }
 
 

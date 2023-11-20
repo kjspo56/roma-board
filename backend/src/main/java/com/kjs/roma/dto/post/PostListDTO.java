@@ -1,4 +1,6 @@
 package com.kjs.roma.dto.post;
 
-public record PostListDTO(Long postId, String title) {
+import java.sql.Timestamp;
+
+public record PostListDTO(Long postId, String title, String writer, int view, int postLike, Timestamp regDate) {
 }

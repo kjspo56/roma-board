@@ -31,6 +31,8 @@ public class QPost extends EntityPathBase<Post> {
 
     public final NumberPath<Long> postId = createNumber("postId", Long.class);
 
+    public final NumberPath<Integer> postLike = createNumber("postLike", Integer.class);
+
     //inherited
     public final DateTimePath<java.sql.Timestamp> regDate = _super.regDate;
 

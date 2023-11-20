@@ -2,13 +2,28 @@
 <template>
   <div>
     <h2>게시글 목록</h2>
-    <ul>
-      <li v-for="post in postList" :key="post.postId">
-        ID값 : {{ post.postId }}
-        제목 : <router-link :to="{ name: 'PostDetail', params: { id: post.postId }}">{{ post.title }}</router-link>
-        작성자 : {{ post.writer }}
-      </li>
-    </ul>
+    <table>
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>제목</th>
+        <th>작성자</th>
+        <th>추천수</th>
+        <th>업데이트 날짜</th>
+        <th>조회수</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr v-for="post in postList" :key="post.postId">
+        <td>{{ post.postId }}</td>
+        <td><router-link :to="{ name: 'PostDetail', params: { id: post.postId }}">{{ post.title }}</router-link></td>
+        <td>{{ post.writer }}</td>
+        <td>{{ post.postLike }}</td>
+        <td>{{ post.regDate }}</td>
+        <td>{{ post.view }}</td>
+      </tr>
+      </tbody>
+    </table>
   </div>
 </template>
 

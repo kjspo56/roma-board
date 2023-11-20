@@ -3,10 +3,9 @@ POST http://localhost:9096/post/
 Content-Type: application/json
 
 {
-  "title": "test",
-  "content": "test",
-  "writer": "로춘남",
-  "view": 1
+  "title": "게시판 테스트중6",
+  "content": "게시판 내용5",
+  "writer": "로마맨5"
 }
 
 ### Update - 게시물 수정
@@ -14,11 +13,9 @@ PUT http://localhost:9096/post/
 Content-Type: application/json
 
 {
-  "postId": 5,
+  "postId": 4,
   "title": "test2",
-  "content": "test2",
-  "writer": "test",
-  "view": 1
+  "content": "test2"
 }
 
 ### List - 게시물 목록
