@@ -2,22 +2,29 @@
 <template>
   <div>
     <h2>게시글 상세보기</h2>
-    <p>ID: {{ postId }}</p>
-    <p>제목: {{ title }}</p>
+    <p>ID: {{ result.postId }}</p>
+    <p>제목: {{ result.title }}</p>
+    <p>내용: {{ result.content }}</p>
+    <p>작성자: {{ result.writer }}</p>
+    <p>추천수: {{ result.postLike }}</p>
+    <p>업데이트 날짜: {{ result.regDate }}</p>
+    <p>업데이트 날짜: {{ result.view }}</p>
+    {{ $route.params }}
     <!-- 상세 정보 표시 등 -->
   </div>
 </template>
 
 <script>
 export default {
-  data() {
+  name: 'PostDetail',
+  data(){
     return {
-      postId: null
-    };
+      result: {}
+    }
   },
-  mounted() {
-    // 뷰가 마운트되면 postId를 라우터에서 받아와서 설정
-    this.postId = this.$route.params.id;
+  created() {
+    console.log(this.$store.state.post)
+    this.result = this.$store.state.post
   }
 };
 </script>
