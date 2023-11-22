@@ -1,7 +1,5 @@
 package com.kjs.roma.service.post;
 
-import com.kjs.roma.dto.page.PageDTO;
-import com.kjs.roma.dto.page.SearchOptionDTO;
 import com.kjs.roma.dto.post.PostDTO;
 import com.kjs.roma.dto.post.PostListDTO;
 import com.kjs.roma.environment.response.JsonResponse;
@@ -13,14 +11,11 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.service.spi.ServiceException;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Service
@@ -39,10 +34,22 @@ public class PostService {
      */
     public JsonResponse create(PostDTO postDTO) throws ServiceException {
         log.debug("create: {}", postDTO);
-        Post post = postMapper.toEntity(postDTO);
-        postRepository.save(post);
-        return JsonResponse.create(postMapper.toDto(post));
+        try {
+            if (duplicateTitleCheck(postDTO.title())) {
+                return JsonResponse.create(ResponseCode.CONFLICT_DATA, "Title is already in use");
+            }
+            if(validateTitle(postDTO.title()) != null){
+                Post post = postMapper.toEntity(postDTO);
+                //Todo : 파일 업로드 처리
+                postRepository.save(post);
+                return JsonResponse.create(postMapper.toDto(post));
+            } else {
+                return JsonResponse.create(ResponseCode.INVALID_FORMAT);
+            }
+        } catch (IllegalArgumentException e) {
+            return JsonResponse.create(ResponseCode.INVALID_PARAMETER, e.getMessage());
         }
+    }
 
     /**
      * 해당 메소드는 에러 처리를 위한 샘플코드.
@@ -120,4 +127,11 @@ public class PostService {
         return postRepository.existsByTitle(title);
     }
 
+    public String validateTitle(String title) {
+        String pattern = "^(?=.*[가-힣a-zA-Z])(?!.*[ㄱ-ㅎㅏ-ㅣ]{2})[가-힣a-zA-Z0-9_]*$";
+        if(!Pattern.matches(pattern, title)) {
+            throw new IllegalArgumentException("Invalid title format");
+        }
+        return title.replaceAll("\\s", "");
+    }
 }

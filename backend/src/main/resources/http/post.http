@@ -3,9 +3,9 @@ POST http://localhost:9096/post/
 Content-Type: application/json
 
 {
-  "title": "게시판 테스트중6",
-  "content": "게시판 내용5",
-  "writer": "로마맨5"
+  "title": "^*&^*&^",
+  "content": "게시판",
+  "writer": "로마맨"
 }
 
 ### Update - 게시물 수정
