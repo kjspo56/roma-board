@@ -16,7 +16,8 @@
       <tbody>
       <tr v-for="post in result" v-bind:key="post.postId">
         <td>{{ post.postId }}</td>
-        <td>{{ post.title }}</td>
+<!--        <td>{{ post.title }}</td>-->
+        <router-link :to="{ name: 'PostDetail', params: { id: post.postId }}">{{ post.title }}</router-link>
         <td>{{ post.writer }}</td>
         <td>{{ post.postLike }}</td>
         <td>{{ formatDateTime(post.regDate) }}</td>
@@ -37,7 +38,7 @@ export default {
   name: "PageMain",
   data() {
     return {
-      result: []
+      result: [],
     };
   },
   created() {
@@ -56,8 +57,8 @@ export default {
     },
     formatDateTime(dateTime) {
       return moment(dateTime).format("YYYY-MM-DD HH:mm");
-    }
-  },
+    },
+  }
 };
 </script>
 

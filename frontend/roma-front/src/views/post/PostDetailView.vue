@@ -17,14 +17,16 @@
 <script>
 export default {
   name: 'PostDetail',
-  data(){
-    return {
-      result: {}
-    }
+  props: {
+    id: {
+      type: String,
+      required: true,
+    },
   },
   created() {
-    console.log(this.$store.state.post)
-    this.result = this.$store.state.post
+  //  console.log(this.$store.state.post)
+  //  this.result = this.$store.state.post
+    console.log(this.$route);
   }
 };
 </script>

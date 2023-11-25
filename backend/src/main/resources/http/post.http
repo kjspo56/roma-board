@@ -3,7 +3,7 @@ POST http://localhost:9096/post/
 Content-Type: application/json
 
 {
-  "title": "^*&^*&^",
+  "title": "김aexcel",
   "content": "게시판",
   "writer": "로마맨"
 }
@@ -13,7 +13,7 @@ PUT http://localhost:9096/post/
 Content-Type: application/json
 
 {
-  "postId": 4,
+  "postId": 5,
   "title": "test2",
   "content": "test2"
 }

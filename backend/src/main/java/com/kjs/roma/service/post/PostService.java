@@ -36,7 +36,7 @@ public class PostService {
         log.debug("create: {}", postDTO);
         try {
             if (duplicateTitleCheck(postDTO.title())) {
-                return JsonResponse.create(ResponseCode.CONFLICT_DATA, "Title is already in use");
+                return JsonResponse.create(ResponseCode.CONFLICT_DATA, "title is already in use");
             }
             if(validateTitle(postDTO.title()) != null){
                 Post post = postMapper.toEntity(postDTO);
@@ -44,7 +44,7 @@ public class PostService {
                 postRepository.save(post);
                 return JsonResponse.create(postMapper.toDto(post));
             } else {
-                return JsonResponse.create(ResponseCode.INVALID_FORMAT);
+                return JsonResponse.create(ResponseCode.INVALID_PARAMETER);
             }
         } catch (IllegalArgumentException e) {
             return JsonResponse.create(ResponseCode.INVALID_PARAMETER, e.getMessage());
@@ -69,20 +69,27 @@ public class PostService {
     @Transactional
     public JsonResponse update(PostDTO postDTO) throws ServiceException {
         log.debug("postDTO : {}", postDTO);
-        boolean check = duplicateTitleCheck(postDTO.title());
-        Post post = postRepository.findById(postDTO.postId()).orElseThrow(()-> new SecurityException(ResponseCode.NO_DATA_FOUND.code()));
-        log.debug("find post Entity : {}", post);
+        Post post = postRepository.findById(postDTO.postId()).orElseThrow(()-> new ServiceException(ResponseCode.NO_DATA_FOUND.code()));
+
+        if(!post.getTitle().equals(postDTO.title()) && duplicateTitleCheck(postDTO.title())){
+            return JsonResponse.create(ResponseCode.CONFLICT_DATA, "title is already use");
+        }
+
+        if(validateTitle(postDTO.title()) != null){
+            //Todo : file 처리
+            post.updatePost(postDTO.title(), postDTO.content());
+            log.debug("update post Entity : {}", post);
+            postRepository.save(post);
+            return JsonResponse.create(postMapper.toDto(post));
+        } else {
+            return JsonResponse.create(ResponseCode.INVALID_PARAMETER);
+        }
         /**
          * @Setter 메소드를 제외한 경우의 Entity 수정
          * 도메인에 업데이트할 항목을 정의하여 무분별한 set 메소드를 사용하지 않고 구현
          * - setter 메소드가 있을경우 set을 통한 엔티티 변경 후 변경감지로 트랙잭션이 종료되면 update 문 실행됨.
          * - 드문 케이스이긴 하겠지만 Service 외 다른 케이스에서 Entity 생성하여 setter 사용이 가능하면 운영시 update 가 어느 시점에서 발생했는지 디버그가 힘들어진 케이스 발생
          */
-        post.updatePost(postDTO.title(), postDTO.content());
-        log.debug("update post Entity : {}", post);
-
-        postRepository.save(post);
-        return JsonResponse.create(postMapper.toDto(post));
     }
 
 
