@@ -6,6 +6,7 @@ import com.kjs.roma.service.post.PostService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.service.spi.ServiceException;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -26,8 +27,8 @@ public class PostController {
     }
 
     @PostMapping("/list")
-    public JsonResponse getList() {
-        return postService.getList();
+    public JsonResponse getList(Pageable pageable) {
+        return postService.getList(pageable);
     }
 
     @GetMapping("/{postId}")

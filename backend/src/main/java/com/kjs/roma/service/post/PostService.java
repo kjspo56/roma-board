@@ -11,8 +11,12 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.service.spi.ServiceException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
@@ -101,14 +105,15 @@ public class PostService {
      * @param
      * @return
      */
-    public JsonResponse getList(){
-        List<Post> postEntityList = postRepository.findAll();
+    public JsonResponse getList(Pageable pageable){
+//        List<Post> postEntityList = postRepository.findAll();
+        Page<Post> postEntityList = postRepository.findAll(pageable);
         if(postEntityList.isEmpty()){
             return JsonResponse.create(ResponseCode.NO_DATA_FOUND.code());
         }
         List<PostListDTO> postList = postEntityList.stream()
                 .map(postMapper::postToPostListDTO).collect(Collectors.toList());
-        return JsonResponse.create(postList);
+        return JsonResponse.create(postList, pageable, 0);
     }
 
 
