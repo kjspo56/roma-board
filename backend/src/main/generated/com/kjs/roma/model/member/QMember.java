@@ -21,7 +21,11 @@ public class QMember extends EntityPathBase<Member> {
 
     public final com.kjs.roma.model.QCommonField _super = new com.kjs.roma.model.QCommonField(this);
 
+    public final StringPath department = createString("department");
+
     public final StringPath email = createString("email");
+
+    public final DateTimePath<java.sql.Timestamp> lastAccessTime = createDateTime("lastAccessTime", java.sql.Timestamp.class);
 
     public final NumberPath<Long> memberId = createNumber("memberId", Long.class);
 
@@ -35,6 +39,10 @@ public class QMember extends EntityPathBase<Member> {
 
     public final StringPath password = createString("password");
 
+    public final StringPath phone = createString("phone");
+
+    public final StringPath refreshToken = createString("refreshToken");
+
     //inherited
     public final DateTimePath<java.sql.Timestamp> regDate = _super.regDate;
 
@@ -43,7 +51,11 @@ public class QMember extends EntityPathBase<Member> {
 
     public final EnumPath<Role> role = createEnum("role", Role.class);
 
+    public final StringPath token = createString("token");
+
     public final StringPath username = createString("username");
+
+    public final StringPath userStatus = createString("userStatus");
 
     public QMember(String variable) {
         super(Member.class, forVariable(variable));

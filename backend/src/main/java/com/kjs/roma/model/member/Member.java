@@ -3,12 +3,19 @@ package com.kjs.roma.model.member;
 import com.kjs.roma.model.CommonField;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+import java.sql.Timestamp;
+
 @Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
-@Table(name = "member")
 @ToString
+@DynamicUpdate
+@DynamicInsert
 public class Member extends CommonField{
 
     @Id
@@ -18,18 +25,25 @@ public class Member extends CommonField{
     @Column(nullable = false, length = 30)
     private String username;
 
-    @Column(length = 100)
-    private String password;
+    @Column(nullable = false, length = 50, unique = true)
+    private String email;
 
+    private String password;
+    private String token;
+    private String refreshToken;
     @Column
     private String nickname;
 
-    @Column(nullable = false, length = 50, unique = true)
-    private String email;
+    private String phone;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role;
+
+    @Column(name ="user_status", columnDefinition = "CHAR(2) DEFAULT '00'")
+    private String userStatus; // 00: 승인대기/준회원, 01 : 승인완료/정회원, 02: 사용안함
+    private Timestamp lastAccessTime; //최종접속시간
+    private String department;
 
     @Builder
     public Member(Long memberId, String username, String password, String nickname, String email, Role role){

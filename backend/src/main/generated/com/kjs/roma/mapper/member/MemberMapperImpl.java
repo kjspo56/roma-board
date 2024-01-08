@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-11-20T21:04:59+0900",
+    date = "2024-01-08T21:21:57+0900",
     comments = "version: 1.5.3.Final, compiler: javac, environment: Java 17.0.5 (Amazon.com Inc.)"
 )
 @Component
@@ -45,9 +45,9 @@ public class MemberMapperImpl implements MemberMapper {
 
         member.memberId( d.memberId() );
         member.username( d.username() );
+        member.email( d.email() );
         member.password( d.password() );
         member.nickname( d.nickname() );
-        member.email( d.email() );
         member.role( d.role() );
 
         return member.build();
