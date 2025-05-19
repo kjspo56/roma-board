@@ -76,7 +76,15 @@ public class PostService {
             //Todo : file 처리
             post.updatePost(postDTO.title(), postDTO.content());
             log.debug("update post Entity : {}", post);
-            postRepository.save(post);
+            //postRepository.save(post);    값만 변경 -save() 없이도 트랜잭션 종료 시 자동 반영
+
+            /**
+             * Dirth Checking이 안되는 경우
+             * new Post() 같은 새 객체를 만들어서 변경하려고 할때
+             * 트랜잭션 범위 바깥에서 필드 값을 바꿀때
+             * DTO의 값을 setter로 넣고 save() 없이 끝내는 경우
+             */
+
             return JsonResponse.create(postMapper.toDto(post));
         } else {
             return JsonResponse.create(ResponseCode.INVALID_PARAMETER);
