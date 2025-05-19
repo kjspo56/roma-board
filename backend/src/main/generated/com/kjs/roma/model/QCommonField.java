@@ -21,11 +21,7 @@ public class QCommonField extends EntityPathBase<CommonField> {
 
     public final DateTimePath<java.sql.Timestamp> modDate = createDateTime("modDate", java.sql.Timestamp.class);
 
-    public final NumberPath<Integer> modMember = createNumber("modMember", Integer.class);
-
     public final DateTimePath<java.sql.Timestamp> regDate = createDateTime("regDate", java.sql.Timestamp.class);
-
-    public final NumberPath<Integer> regMember = createNumber("regMember", Integer.class);
 
     public QCommonField(String variable) {
         super(CommonField.class, forVariable(variable));

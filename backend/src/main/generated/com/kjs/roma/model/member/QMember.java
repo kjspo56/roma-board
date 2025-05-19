@@ -28,18 +28,12 @@ public class QMember extends EntityPathBase<Member> {
     //inherited
     public final DateTimePath<java.sql.Timestamp> modDate = _super.modDate;
 
-    //inherited
-    public final NumberPath<Integer> modMember = _super.modMember;
-
     public final StringPath nickname = createString("nickname");
 
     public final StringPath password = createString("password");
 
     //inherited
     public final DateTimePath<java.sql.Timestamp> regDate = _super.regDate;
-
-    //inherited
-    public final NumberPath<Integer> regMember = _super.regMember;
 
     public final EnumPath<Role> role = createEnum("role", Role.class);
 

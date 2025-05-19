@@ -26,18 +26,12 @@ public class QPost extends EntityPathBase<Post> {
     //inherited
     public final DateTimePath<java.sql.Timestamp> modDate = _super.modDate;
 
-    //inherited
-    public final NumberPath<Integer> modMember = _super.modMember;
-
     public final NumberPath<Long> postId = createNumber("postId", Long.class);
 
     public final NumberPath<Integer> postLike = createNumber("postLike", Integer.class);
 
     //inherited
     public final DateTimePath<java.sql.Timestamp> regDate = _super.regDate;
-
-    //inherited
-    public final NumberPath<Integer> regMember = _super.regMember;
 
     public final StringPath title = createString("title");
 

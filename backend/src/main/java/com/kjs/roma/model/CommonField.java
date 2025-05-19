@@ -23,10 +23,6 @@ public class CommonField implements Serializable {
     private Timestamp regDate;
     @Column(name = "mod_date", nullable = true)
     private Timestamp modDate;
-    @Column(name = "reg_member", nullable = true, updatable = false)
-    private Integer regMember;
-    @Column(name = "mod_member", nullable = true, updatable = true)
-    private Integer modMember;
 
     @PrePersist
     protected void onCreate() {
@@ -39,8 +35,4 @@ public class CommonField implements Serializable {
         modDate = Timestamp.valueOf(LocalDateTime.now());
     }
 
-    public void setMember(int member) {
-        this.regMember = member;
-        this.modMember = member;
-    }
 }

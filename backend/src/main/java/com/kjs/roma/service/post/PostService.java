@@ -12,11 +12,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.service.spi.ServiceException;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
@@ -37,12 +35,10 @@ public class PostService {
      * @return
      */
     public JsonResponse create(PostDTO postDTO) throws ServiceException {
-        log.debug("create: {}", postDTO);
+        log.info("create: {}", postDTO);
         try {
-            if (duplicateTitleCheck(postDTO.title())) {
-                return JsonResponse.create(ResponseCode.CONFLICT_DATA, "title is already in use");
-            }
-            if(validateTitle(postDTO.title()) != null){
+
+            if(validation(postDTO)){
                 Post post = postMapper.toEntity(postDTO);
                 //Todo : 파일 업로드 처리
                 postRepository.save(post);
@@ -72,14 +68,10 @@ public class PostService {
      */
     @Transactional
     public JsonResponse update(PostDTO postDTO) throws ServiceException {
-        log.debug("postDTO : {}", postDTO);
+        log.info("postDTO : {}", postDTO);
         Post post = postRepository.findById(postDTO.postId()).orElseThrow(()-> new ServiceException(ResponseCode.NO_DATA_FOUND.code()));
 
-        if(!post.getTitle().equals(postDTO.title()) && duplicateTitleCheck(postDTO.title())){
-            return JsonResponse.create(ResponseCode.CONFLICT_DATA, "title is already use");
-        }
-
-        if(validateTitle(postDTO.title()) != null){
+        if(validation(postDTO)){
             //Todo : file 처리
             post.updatePost(postDTO.title(), postDTO.content());
             log.debug("update post Entity : {}", post);
@@ -119,6 +111,9 @@ public class PostService {
 
     public JsonResponse get(Long postId){
         Post post = postRepository.findById(postId).orElseThrow(() -> new ServiceException(ResponseCode.NO_DATA_FOUND.code()));
+
+        //ToDo : 조회수
+
         return JsonResponse.create(postMapper.toDto(post));
     }
 
@@ -139,11 +134,37 @@ public class PostService {
         return postRepository.existsByTitle(title);
     }
 
-    public String validateTitle(String title) {
-        String pattern = "^(?=.*[가-힣a-zA-Z])(?!.*[ㄱ-ㅎㅏ-ㅣ]{2})[가-힣a-zA-Z0-9_]*$";
-        if(!Pattern.matches(pattern, title)) {
-            throw new IllegalArgumentException("Invalid title format");
+    /**
+     * 파라미터 검증
+     * @param postDTO
+     * @return
+     */
+    public boolean validation(PostDTO postDTO) {
+        log.info("validation Param : {}", postDTO);
+
+        if (postDTO.title() == null || postDTO.title().trim().isEmpty()) {
+            return false;
         }
-        return title.replaceAll("\\s", "");
+
+        if (postDTO.content() == null || postDTO.content().trim().isEmpty()) {
+            return false;
+        }
+
+        if (postDTO.writer() == null || postDTO.writer().trim().isEmpty()) {
+            return false;
+        }
+
+        // 제목, 작성자 형식 검증
+        String pattern = "^(?=.*[가-힣a-zA-Z])(?!.*[ㄱ-ㅎㅏ-ㅣ]{2})[가-힣a-zA-Z0-9_\\s]*$";
+
+        if (!Pattern.matches(pattern, postDTO.title())) {
+            return false;
+        }
+
+        if (!Pattern.matches(pattern, postDTO.writer())) {
+            return false;
+        }
+
+        return true;
     }
 }

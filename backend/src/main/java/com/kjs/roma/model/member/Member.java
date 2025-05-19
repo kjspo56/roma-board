@@ -7,7 +7,7 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
-@Table(name = "member")
+@Table(name = "user_members")
 @ToString
 public class Member extends CommonField{
 
