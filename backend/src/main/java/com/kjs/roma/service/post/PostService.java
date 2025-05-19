@@ -7,6 +7,7 @@ import com.kjs.roma.mapper.post.PostMapper;
 import com.kjs.roma.model.post.Post;
 import com.kjs.roma.repository.post.PostRepository;
 import com.kjs.roma.environment.response.ResponseCode;
+import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -109,10 +110,19 @@ public class PostService {
     }
 
 
-    public JsonResponse get(Long postId){
-        Post post = postRepository.findById(postId).orElseThrow(() -> new ServiceException(ResponseCode.NO_DATA_FOUND.code()));
+    @Transactional
+    public JsonResponse get(Long postId, HttpSession session){
 
-        //ToDo : 조회수
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new ServiceException(ResponseCode.NO_DATA_FOUND.code()));
+
+        String sessionKey = "viewed_post_" + postId;
+
+        if(session.getAttribute(sessionKey) == null){
+            post.setView(post.getView() + 1);       //Dirty Checking 대상이 됨
+            session.setAttribute(sessionKey, true);
+            //save 호출 없이 트랜잭션 종료 시점에 update 발생
+        }
 
         return JsonResponse.create(postMapper.toDto(post));
     }

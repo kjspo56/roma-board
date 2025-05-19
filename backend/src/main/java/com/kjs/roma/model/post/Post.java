@@ -6,6 +6,7 @@ import lombok.*;
 
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString
 public class Post extends CommonField {
@@ -29,6 +30,7 @@ public class Post extends CommonField {
     @Column(columnDefinition = "integer default 0", nullable = false)
     private int postLike;
 
+
     @Builder
     public Post(Long postId, String title, String content, String writer, int view, int postLike){
         this.postId = postId;
@@ -39,12 +41,12 @@ public class Post extends CommonField {
         this.postLike = postLike;
     }
 
+
+
     public void updatePost(String title, String content){
         this.title = title;
         this.content = content;
     }
 
-//    public void updateChildYn(String childYn){
-//        this.childYn = childYn;
-//    }
+
 }

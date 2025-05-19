@@ -3,6 +3,7 @@ package com.kjs.roma.controller;
 import com.kjs.roma.dto.post.PostDTO;
 import com.kjs.roma.environment.response.JsonResponse;
 import com.kjs.roma.service.post.PostService;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
@@ -51,8 +52,8 @@ public class PostController {
      * @return
      */
     @GetMapping("/{postId}")
-    public JsonResponse get(@PathVariable("postId") Long postId) {
-        return postService.get(postId);
+    public JsonResponse get(@PathVariable("postId") Long postId, HttpSession session) {
+        return postService.get(postId, session);
     }
 
     /**
